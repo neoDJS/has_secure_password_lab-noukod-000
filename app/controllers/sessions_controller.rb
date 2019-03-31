@@ -1,16 +1,18 @@
 class SessionsController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create]
 
   def new
   end
 
   def create
-    @user = User.find_by(username: params[:username])
+    # raise params.inspect
+    @user = User.find_by(name: params[:user][:name])
     return head(:forbidden) unless @user.authenticate(params[:password])
     session[:user_id] = @user.id
+    redirect_to controller: 'welcome', action: 'home'
   end
 
   def destroy
-    session.delete :name
+    session.delete :user_id
+    redirect_to '/'
   end
 end
