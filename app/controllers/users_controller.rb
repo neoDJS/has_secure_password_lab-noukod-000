@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+  def new
+    render :signup
+  end
+
   def create
     User.create(user_params)
   end
